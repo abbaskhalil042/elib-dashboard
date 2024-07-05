@@ -12,7 +12,7 @@ import signup from "../assets/signup.gif"
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
       <div className="flex items-center justify-center py-12">
-        <div className="mx-auto grid w-[350px] gap-6">
+        <div className="mx-auto grid w-[350px] gap-6 rounded-md border-[1px] border-primary bg-background px-6 py-8">
           <div className="grid gap-2 text-center">
             <h1 className="text-3xl font-bold">Login</h1>
             <p className="text-balance text-muted-foreground">
@@ -43,7 +43,7 @@ import signup from "../assets/signup.gif"
           </div>
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}
-            <Link to="/signin" className="underline">
+            <Link to="/register" className="underline">
               Sign up
             </Link>
           </div>
