@@ -1,5 +1,3 @@
-// import Image from "next/image"
-// import Link from "next/link"
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +8,7 @@ import signup from "../assets/signup.gif";
 import { useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "@/http/api";
-import { LoaderCircle, LoaderPinwheelIcon } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 
 function LoginPage() {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -35,7 +33,8 @@ function LoginPage() {
     //^will make an api call
 
     if (!email || !password) {
-      alert("Please enter email and password");
+      // alert("Please enter email and password");
+      return;
     }
     mutation.mutate({ email, password });
   };
@@ -48,6 +47,7 @@ function LoginPage() {
             <h1 className="text-3xl font-bold">Login</h1>
             <p className="text-balance text-muted-foreground">
               Enter your email below to login to your account
+
             </p>
           </div>
           <div className="grid gap-4">
@@ -72,16 +72,24 @@ function LoginPage() {
                 required
                 ref={passwordRef}
               />
+                {
+                mutation.isError && <p className="text-red-500">{mutation.error.message}</p>
+              }
             </div>
             <Button
               onClick={handleLoginSubmit}
               type="submit"
               className="w-full"
-              disabled={mutation.isLoading}
+              disabled={mutation.isPending}
             >
+
+            
+
               {
                 mutation.isPending?<LoaderCircle className="animate-spin"/> :"Login"
               }
+
+              
           
             </Button>
           </div>
