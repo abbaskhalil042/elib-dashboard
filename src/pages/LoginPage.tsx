@@ -4,21 +4,37 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import signup from "../assets/signup.gif";
 import { useRef } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { login } from "@/http/api";
 
 function LoginPage() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
+  const navigate=useNavigate()
+
+  const mutation = useMutation({
+    mutationFn: login,
+    onSuccess: () => {
+      navigate("/")
+    },
+  });
+
   const handleLoginSubmit = () => {
     const email = emailRef.current?.value; //*will get the data when we type
     const password = passwordRef.current?.value;
-    console.log(email, password);
+    // console.log(email, password);
 
     //^will make an api call
+
+    if (!email || !password){
+      alert("Please enter email and password")
+    }
+    mutation.mutate({ email, password });
   };
 
   return (
