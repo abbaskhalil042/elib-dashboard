@@ -10,19 +10,22 @@ import signup from "../assets/signup.gif";
 import { useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "@/http/api";
+import { LoaderCircle, LoaderPinwheelIcon } from "lucide-react";
 
 function LoginPage() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   const mutation = useMutation({
     mutationFn: login,
     onSuccess: () => {
-      navigate("/")
+      navigate("/");
     },
   });
+
+  console.log("mutation", mutation);
 
   const handleLoginSubmit = () => {
     const email = emailRef.current?.value; //*will get the data when we type
@@ -31,8 +34,8 @@ function LoginPage() {
 
     //^will make an api call
 
-    if (!email || !password){
-      alert("Please enter email and password")
+    if (!email || !password) {
+      alert("Please enter email and password");
     }
     mutation.mutate({ email, password });
   };
@@ -74,8 +77,12 @@ function LoginPage() {
               onClick={handleLoginSubmit}
               type="submit"
               className="w-full"
+              disabled={mutation.isLoading}
             >
-              Login
+              {
+                mutation.isPending?<LoaderCircle className="animate-spin"/> :"Login"
+              }
+          
             </Button>
           </div>
           <div className="mt-4 text-center text-sm">
