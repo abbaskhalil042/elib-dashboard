@@ -1,14 +1,26 @@
 // import Image from "next/image"
 // import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Link } from "react-router-dom"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Link } from "react-router-dom";
 
-import signup from "../assets/signup.gif"
+import signup from "../assets/signup.gif";
+import { useRef } from "react";
 
- function LoginPage() {
+function LoginPage() {
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  const handleLoginSubmit = () => {
+    const email = emailRef.current?.value; //*will get the data when we type
+    const password = passwordRef.current?.value;
+    console.log(email, password);
+
+    //^will make an api call
+  };
+
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
       <div className="flex items-center justify-center py-12">
@@ -27,19 +39,28 @@ import signup from "../assets/signup.gif"
                 type="email"
                 placeholder="m@example.com"
                 required
+                ref={emailRef}
               />
             </div>
             <div className="grid gap-2">
               <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
-            
-              </div >
-              <Input id="password" type="password" placeholder="********" required />
+              </div>
+              <Input
+                id="password"
+                type="password"
+                placeholder="********"
+                required
+                ref={passwordRef}
+              />
             </div>
-            <Button type="submit" className="w-full">
+            <Button
+              onClick={handleLoginSubmit}
+              type="submit"
+              className="w-full"
+            >
               Login
             </Button>
-        
           </div>
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}
@@ -59,7 +80,7 @@ import signup from "../assets/signup.gif"
         />
       </div>
     </div>
-  )
+  );
 }
 
-export default LoginPage
+export default LoginPage;
