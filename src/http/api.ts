@@ -21,3 +21,15 @@ export const login = async (data: { email: string; password: string }) => {
         throw error;
     }
 };
+
+
+
+export const register = async (data: {name: string; email: string; password: string }) => {
+    try {
+       await api.post("/api/users/register", data);
+        // console.log(response) 
+    } catch (error) {
+        console.error('Error logging in:', error);
+        throw error;
+    }
+}
