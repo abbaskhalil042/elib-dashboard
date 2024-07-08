@@ -1,10 +1,46 @@
 import { Button } from "@/components/ui/button";
 
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import { Link, NavLink } from "react-router-dom";
+
 function HomePage() {
+  // const {token}=useTokenStore((state)=>state)
+
   return (
     <>
       <div className="flex items-center">
-        <h1 className="text-lg font-semibold md:text-2xl">Dashboard</h1>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <NavLink
+                className={({ isActive }) => (isActive ? "underline" : "")}
+                to="/home"
+              >
+                Home
+              </NavLink>
+            </BreadcrumbItem>
+
+            <BreadcrumbItem>
+              <DropdownMenu></DropdownMenu>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+
+            <BreadcrumbItem>
+              <NavLink
+                className={({ isActive }) => (isActive ? "underline" : "")}
+                to="/books"
+              >
+                Books
+              </NavLink>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
       </div>
       <div
         className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
