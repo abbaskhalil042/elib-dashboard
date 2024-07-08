@@ -5,9 +5,10 @@ import { Link, useNavigate } from "react-router-dom";
 
 import signup from "../assets/signup.gif";
 import { useRef } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { login } from "@/http/api";
-import { LoaderCircle } from "lucide-react";
+import { useMutation, UseMutationResult } from "@tanstack/react-query";
+import { login, LoginInput, LoginResponse } from "@/http/api";
+import { LoaderCircle, Variable } from "lucide-react";
+import useTokenStore from "@/zustand/store";
 
 function LoginPage() {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -15,14 +16,24 @@ function LoginPage() {
 
   const navigate = useNavigate();
 
-  const mutation = useMutation({
-    mutationFn: login,
-    onSuccess: () => {
-      navigate("/");
-    },
-  });
+  const setToken = useTokenStore((state)=>state.setToken);
 
-  console.log("mutation", mutation);
+  // console.log(token)
+
+  const mutation: UseMutationResult<LoginResponse, Error, LoginInput> =
+    useMutation({
+      mutationFn: login,
+      onSuccess: (response) => {
+        // Assuming the response has a property `accessToken`
+        // console.log(response.accessToken)
+        setToken(response?.accessToken);
+
+        navigate("/"); // Navigate to the desired route
+      },
+      onError: (error) => {
+        console.error("Error:", error);
+      },
+    });
 
   const handleLoginSubmit = (e: any) => {
     e.preventDefault();

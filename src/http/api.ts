@@ -10,12 +10,23 @@ const api = axios.create({
 
 export default api;
 
-// console.log(api);
 
-export const login = async (data: { email: string; password: string }) => {
+export type LoginInput = {
+    email: string;
+    password: string;
+  };
+
+ export type LoginResponse = {
+    accessToken: string;
+  };
+
+
+
+export const login = async (data: LoginInput):Promise<LoginResponse> => {
     try {
-       await api.post("/api/users/login", data);
-        // console.log(response) 
+      const response= await api.post<LoginResponse>("/api/users/login", data);
+        // console.log(response)
+        return response.data 
     } catch (error) {
         console.error('Error logging in:', error);
         throw error;

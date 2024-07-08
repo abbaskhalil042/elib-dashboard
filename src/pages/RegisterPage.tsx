@@ -10,7 +10,6 @@ import { LoaderCircle } from "lucide-react";
 // import { register } from "module";
 
 const RegisterPage = () => {
-
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const userNameRef = useRef<HTMLInputElement>(null);
@@ -26,7 +25,7 @@ const RegisterPage = () => {
 
   // console.log("mutation", mutation?.error?.response?.data?.message);
 
-  const handleRegisterSubmit = (e:any) => {
+  const handleRegisterSubmit = (e: any) => {
     e.preventDefault();
 
     const email = emailRef.current?.value; //*will get the data when we type
@@ -40,7 +39,7 @@ const RegisterPage = () => {
       // alert("Please enter email and password");
       return;
     }
-    mutation.mutate({name , email, password });
+    mutation.mutate({ name, email, password });
   };
 
   return (
@@ -96,12 +95,17 @@ const RegisterPage = () => {
               />
             </div>
             {mutation.isError && (
-                <p className="text-red-500">{mutation?.error?.response?.data?.message}</p>
-              )
-              
-              }
-            <Button onClick={handleRegisterSubmit} type="submit" className="w-full">
-            {mutation.isPending ? (
+              <p className="text-red-500">
+                {/* @ts-ignore */}
+                {mutation?.error?.response?.data?.message}
+              </p>
+            )}
+            <Button
+              onClick={handleRegisterSubmit}
+              type="submit"
+              className="w-full"
+            >
+              {mutation.isPending ? (
                 <LoaderCircle className="animate-spin" />
               ) : (
                 "Register"
