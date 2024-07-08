@@ -4,26 +4,30 @@ import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
 import signup from "../assets/signup.gif";
 import { useRef } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { register } from "@/http/api";
+import { useMutation, UseMutationResult } from "@tanstack/react-query";
+import { register, RegisterInput, RegisterResponse } from "@/http/api";
 import { LoaderCircle } from "lucide-react";
-// import { register } from "module";
+import useTokenStore from "@/zustand/store";
 
 const RegisterPage = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const userNameRef = useRef<HTMLInputElement>(null);
 
+  const setToken = useTokenStore((state) => state.setToken);
   const navigate = useNavigate();
 
-  const mutation = useMutation({
-    mutationFn: register,
-    onSuccess: () => {
-      navigate("/");
-    },
-  });
-
-  // console.log("mutation", mutation?.error?.response?.data?.message);
+  const mutation: UseMutationResult<RegisterResponse, Error, RegisterInput> =
+    useMutation({
+      mutationFn: register,
+      onSuccess: (response) => {
+        setToken(response?.accessToken);
+        navigate("/");
+      },
+      onError: (error) => {
+        console.error("Error:", error);
+      },
+    });
 
   const handleRegisterSubmit = (e: any) => {
     e.preventDefault();
