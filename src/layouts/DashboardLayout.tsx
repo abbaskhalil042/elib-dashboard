@@ -9,6 +9,7 @@ import {
   Package2,
   Search,
   ShoppingCart,
+  User,
   Users,
 } from "lucide-react";
 
@@ -32,14 +33,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import useTokenStore from "@/zustand/store";
-import HomePage from "@/pages/HomePage";
+
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+
 // import HomePage from "@/pages/HomePage";
 // import useTokenStore from "@/zustand/store";
 // import LoginPage from "@/pages/LoginPage";
 
 const DashboardLayout = () => {
-  const [select, setSelect] = useState(false);
+  const [serach, setSearch] = useState(null);
   const { setToken, token } = useTokenStore((state) => state);
   const logout = () => {
     console.log("logout");
@@ -47,12 +50,15 @@ const DashboardLayout = () => {
   };
 
   if (!token) return <Navigate to="/auth/login" replace={true} />;
+  const serchHandleSubmit = (e: any) => {
+    e.preventDefault();
+    console.log(e.target[0].value);
+  };
 
-  // if (token) {
-  //  return (
-  //    <HomePage/>
-  //  )
-  // }
+  const serchHandleChange = (e: any) => {
+    console.log(e.target.value);
+  };
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -171,21 +177,23 @@ const DashboardLayout = () => {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <form>
-              <div className="relative">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <form onSubmit={serchHandleSubmit}>
+              <div className="relative ">
+                <Search className="absolute  left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
                   type="search"
                   placeholder="Search products..."
                   className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
+                  onChange={serchHandleChange}
                 />
               </div>
             </form>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full">
-                <CircleUser className="h-5 w-5" />
+              <Button variant="ghost" size="icon" className="rounded-full">
+           
+                <User className="h-4 w-4" />
                 <span className="sr-only">Toggle user menu</span>
               </Button>
             </DropdownMenuTrigger>

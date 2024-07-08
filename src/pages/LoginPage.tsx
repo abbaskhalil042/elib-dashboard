@@ -26,6 +26,7 @@ function LoginPage() {
       onSuccess: (response) => {
         // Assuming the response has a property `accessToken`
         // console.log(response.accessToken)
+    
         setToken(response?.accessToken);
 
         navigate("/"); // Navigate to the desired route

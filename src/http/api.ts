@@ -54,3 +54,16 @@ export const register = async (
     throw error;
   }
 };
+
+
+//book list
+
+ export const bookList=async (books:any):Promise<any>=>{
+  try { 
+    const response = await api.get("/api/books");
+    return response.data;
+  } catch (error) {
+    console.error("Error logging in:", error);
+    throw error;
+  }
+}
